@@ -63,6 +63,97 @@ MetadataResult({
 
 ---
 
+## 🚀 Quick Start Guide
+
+### 1. Provider Instantiation
+Always abstract scanner selection via platform-aware conditional logic using `kIsWeb`:
+
+```dart
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:metadata_core/metadata_core.dart';
+import 'package:metadata_extractor/metadata_extractor.dart';
+import 'package:metadata_web/metadata_web.dart';
+
+final scannerProvider = Provider<IFileScanner>((ref) {
+  if (kIsWeb) {
+    return WebFileScanner();
+  }
+  return RecursiveFileScanner();
+});
+```
+
+### 2. Native File Scanning (Desktop / Mobile)
+Pass any absolute path string straight to `.scan()` to recursively process media files streamingly:
+
+```dart
+final scanner = ref.read(scannerProvider);
+
+await for (final progress in scanner.scan('/Users/username/Photos')) {
+  debugPrint('Status: ${progress.status}');
+  
+  if (progress.currentFile != null) {
+    // MediaFile available for immediate display
+    final file = progress.currentFile!;
+    
+    // Optional deep metadata attached if parsed
+    final metadata = progress.metadata;
+  }
+}
+```
+
+### 3. Web Drag-and-Drop Deep Traversal
+When handling browser `drop` events, pass native browser data payloads to `WebDropTraverser` to automatically fetch directory children recursively before invoking `.scanFiles()`:
+
+```dart
+import 'package:web/web.dart' as web;
+import 'package:metadata_web/metadata_web.dart';
+
+void onWebDrop(web.DragEvent event) async {
+  event.preventDefault();
+  
+  // Unravel file/folder array asynchronously using DOM Interop
+  final files = await WebDropTraverser.traverseDrop(event);
+  
+  if (files.isNotEmpty) {
+    final scanner = ref.read(scannerProvider);
+    await for (final progress in scanner.scanFiles(files)) {
+      // Stream updates seamlessly into local UI state
+    }
+  }
+}
+```
+
+---
+
+## 🖼 Rendering Visual Previews
+
+Because web engines lack native disk paths, utilize the persistent `blob:` object URLs auto-populated into the payload for rendering components safely:
+
+```dart
+import 'dart:io' as io;
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:metadata_core/metadata_core.dart';
+
+Widget buildMediaPreview(MediaFile file) {
+  final isImage = file.mimeType.startsWith('image/');
+  if (!isImage) return const Icon(Icons.movie);
+
+  if (file.path.isNotEmpty) {
+    if (kIsWeb && file.path.startsWith('blob:')) {
+      return Image.network(file.path, fit: BoxFit.cover);
+    } else if (!kIsWeb) {
+      return Image.file(io.File(file.path), fit: BoxFit.cover);
+    }
+  }
+  
+  return const Icon(Icons.image);
+}
+```
+
+---
+
 ## Getting started
 
 Add `metadata_core` to your `pubspec.yaml`:

@@ -1,3 +1,7 @@
+## 0.0.3
+
+* Added Quick Start Guide and Rendering Visual Previews sections to README.
+
 ## 0.0.2
 
 * Enhance README with comprehensive architecture diagram and cross-links to add-on packages.
