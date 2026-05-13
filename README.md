@@ -1,13 +1,67 @@
 # metadata_core
 
-Core interfaces and models for MetaVision. 
+**A cohesive, platform-agnostic media metadata extraction, folder traversal, and data modeling architecture designed for production-grade Flutter applications.**
 
-This package provides essential structural definitions and interfaces used across MetaVision, including media models and metadata extraction interfaces.
+`metadata_core` acts as the single source of truth for domain models and scanner interface contracts across the MetaVision suite. It provides essential structural definitions and fully immutable models (`freezed`) used for cross-platform media extraction.
 
-## Features
+## 🏗 System Architecture
 
-* Media and metadata models
-* Core interfaces for metadata extraction
+The suite is segmented into three decoupled modules following clean architecture principles, allowing native recursive indexing on Desktop/Mobile platforms alongside native DOM API mapping for web environments.
+
+```text
+                  ┌───────────────────────────────┐
+                  │         metadata_core         │
+                  │   (Models, Core Interfaces)   │
+                  └───────────────┬───────────────┘
+                                  │
+         ┌────────────────────────┴────────────────────────┐
+         ▼                                                 ▼
+┌─────────────────────────────────┐       ┌─────────────────────────────────┐
+│       metadata_extractor        │       │          metadata_web           │
+│   (Native Recursive Scanner)    │       │    (DOM Bridge & Object URLs)   │
+└─────────────────────────────────┘       └─────────────────────────────────┘
+```
+
+### 🧩 The MetaVision Suite
+
+To fully utilize the suite based on your target platform, you can combine `metadata_core` with our specialized add-on packages:
+
+- **[metadata_extractor](https://pub.dev/packages/metadata_extractor)**: Targets native environments (macOS, Windows, Linux, Android, iOS). Uses `dart:io` recursive directory listings to traverse folders cleanly and extracts deep EXIF/video properties.
+- **[metadata_web](https://pub.dev/packages/metadata_web)**: Targets standard browser environments. Uses native DOM JS interop to recursively unravel folders dropped into the canvas and extracts EXIF data efficiently in the browser.
+
+---
+
+## 📦 Core Domain Models
+
+### `MediaFile`
+Represents the structural file entity.
+```dart
+MediaFile({
+  required String id,
+  required String fileName,
+  required String path, // Absolute native path OR Web blob: URL string
+  required String relativePath,
+  required int size,
+  required String mimeType,
+  required DateTime createdAt,
+  required DateTime modifiedAt,
+  String? hash,
+})
+```
+
+### `MetadataResult`
+Encapsulates all extracted semantic insights mapped to a specific file.
+```dart
+MetadataResult({
+  required String fileId,
+  ImageMetadata? imageMetadata, // Dimensions, Exposure, F-number, ISO
+  VideoMetadata? videoMetadata, // FPS, Bitrate, Duration, Codecs
+  LocationData? location,       // Lat/Long EXIF geocoding
+  DeviceData? device,           // Camera Hardware Make/Model
+})
+```
+
+---
 
 ## Getting started
 
@@ -26,9 +80,9 @@ Import the package:
 import 'package:metadata_core/metadata_core.dart';
 ```
 
-### Extracting EXIF Metadata
+### Extracting EXIF Metadata Manually
 
-You can extract EXIF metadata from image bytes using the `ExifMetadataExtractor`:
+While the add-on packages handle extraction automatically during file scanning, you can manually extract EXIF metadata from image bytes using the bundled `ExifMetadataExtractor`:
 
 ```dart
 import 'dart:io';
@@ -52,19 +106,12 @@ void main() async {
     print('Latitude: ${result.location!.latitude}');
     print('Longitude: ${result.location!.longitude}');
   }
-  
-  // Access image-specific metadata
-  if (result.imageMetadata != null) {
-    print('Exposure Time: ${result.imageMetadata!.exposureTime}');
-    print('F-Number: ${result.imageMetadata!.fNumber}');
-    print('ISO: ${result.imageMetadata!.iso}');
-  }
 }
 ```
 
-### Models and Interfaces
+### Building Custom Extractors
 
-The package also provides core models and interfaces such as `MediaFile`, `MetadataResult`, and `IMetadataExtractor` which can be implemented to create custom metadata extractors.
+The package provides the `IMetadataExtractor` interface which you can implement to create custom metadata parsers for specialized file formats (e.g., RAW images, specialized video formats) while maintaining compatibility with the entire MetaVision suite.
 
 ## Additional information
 
