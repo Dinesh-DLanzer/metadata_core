@@ -6,23 +6,22 @@ part of 'media_models.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$MediaFileImpl _$$MediaFileImplFromJson(Map<String, dynamic> json) =>
-    _$MediaFileImpl(
-      id: json['id'] as String,
-      fileName: json['fileName'] as String,
-      path: json['path'] as String,
-      thumbnailPath: json['thumbnailPath'] as String?,
-      relativePath: json['relativePath'] as String,
-      size: (json['size'] as num).toInt(),
-      mimeType: json['mimeType'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      modifiedAt: DateTime.parse(json['modifiedAt'] as String),
-      hash: json['hash'] as String?,
-      isCorrupted: json['isCorrupted'] as bool? ?? false,
-      isDuplicate: json['isDuplicate'] as bool? ?? false,
-    );
+_MediaFile _$MediaFileFromJson(Map<String, dynamic> json) => _MediaFile(
+  id: json['id'] as String,
+  fileName: json['fileName'] as String,
+  path: json['path'] as String,
+  thumbnailPath: json['thumbnailPath'] as String?,
+  relativePath: json['relativePath'] as String,
+  size: (json['size'] as num).toInt(),
+  mimeType: json['mimeType'] as String,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  modifiedAt: DateTime.parse(json['modifiedAt'] as String),
+  hash: json['hash'] as String?,
+  isCorrupted: json['isCorrupted'] as bool? ?? false,
+  isDuplicate: json['isDuplicate'] as bool? ?? false,
+);
 
-Map<String, dynamic> _$$MediaFileImplToJson(_$MediaFileImpl instance) =>
+Map<String, dynamic> _$MediaFileToJson(_MediaFile instance) =>
     <String, dynamic>{
       'id': instance.id,
       'fileName': instance.fileName,
@@ -38,28 +37,26 @@ Map<String, dynamic> _$$MediaFileImplToJson(_$MediaFileImpl instance) =>
       'isDuplicate': instance.isDuplicate,
     };
 
-_$MetadataResultImpl _$$MetadataResultImplFromJson(Map<String, dynamic> json) =>
-    _$MetadataResultImpl(
-      fileId: json['fileId'] as String,
-      rawMetadata: json['rawMetadata'] as Map<String, dynamic>? ?? const {},
-      imageMetadata: json['imageMetadata'] == null
-          ? null
-          : ImageMetadata.fromJson(
-              json['imageMetadata'] as Map<String, dynamic>),
-      videoMetadata: json['videoMetadata'] == null
-          ? null
-          : VideoMetadata.fromJson(
-              json['videoMetadata'] as Map<String, dynamic>),
-      location: json['location'] == null
-          ? null
-          : LocationData.fromJson(json['location'] as Map<String, dynamic>),
-      device: json['device'] == null
-          ? null
-          : DeviceData.fromJson(json['device'] as Map<String, dynamic>),
-    );
+_MetadataResult _$MetadataResultFromJson(
+  Map<String, dynamic> json,
+) => _MetadataResult(
+  fileId: json['fileId'] as String,
+  rawMetadata: json['rawMetadata'] as Map<String, dynamic>? ?? const {},
+  imageMetadata: json['imageMetadata'] == null
+      ? null
+      : ImageMetadata.fromJson(json['imageMetadata'] as Map<String, dynamic>),
+  videoMetadata: json['videoMetadata'] == null
+      ? null
+      : VideoMetadata.fromJson(json['videoMetadata'] as Map<String, dynamic>),
+  location: json['location'] == null
+      ? null
+      : LocationData.fromJson(json['location'] as Map<String, dynamic>),
+  device: json['device'] == null
+      ? null
+      : DeviceData.fromJson(json['device'] as Map<String, dynamic>),
+);
 
-Map<String, dynamic> _$$MetadataResultImplToJson(
-        _$MetadataResultImpl instance) =>
+Map<String, dynamic> _$MetadataResultToJson(_MetadataResult instance) =>
     <String, dynamic>{
       'fileId': instance.fileId,
       'rawMetadata': instance.rawMetadata,
@@ -69,8 +66,8 @@ Map<String, dynamic> _$$MetadataResultImplToJson(
       'device': instance.device,
     };
 
-_$ImageMetadataImpl _$$ImageMetadataImplFromJson(Map<String, dynamic> json) =>
-    _$ImageMetadataImpl(
+_ImageMetadata _$ImageMetadataFromJson(Map<String, dynamic> json) =>
+    _ImageMetadata(
       width: (json['width'] as num?)?.toInt(),
       height: (json['height'] as num?)?.toInt(),
       format: json['format'] as String?,
@@ -82,7 +79,7 @@ _$ImageMetadataImpl _$$ImageMetadataImplFromJson(Map<String, dynamic> json) =>
       software: json['software'] as String?,
     );
 
-Map<String, dynamic> _$$ImageMetadataImplToJson(_$ImageMetadataImpl instance) =>
+Map<String, dynamic> _$ImageMetadataToJson(_ImageMetadata instance) =>
     <String, dynamic>{
       'width': instance.width,
       'height': instance.height,
@@ -95,8 +92,8 @@ Map<String, dynamic> _$$ImageMetadataImplToJson(_$ImageMetadataImpl instance) =>
       'software': instance.software,
     };
 
-_$VideoMetadataImpl _$$VideoMetadataImplFromJson(Map<String, dynamic> json) =>
-    _$VideoMetadataImpl(
+_VideoMetadata _$VideoMetadataFromJson(Map<String, dynamic> json) =>
+    _VideoMetadata(
       duration: (json['duration'] as num).toDouble(),
       width: (json['width'] as num).toInt(),
       height: (json['height'] as num).toInt(),
@@ -106,7 +103,7 @@ _$VideoMetadataImpl _$$VideoMetadataImplFromJson(Map<String, dynamic> json) =>
       audioCodec: json['audioCodec'] as String?,
     );
 
-Map<String, dynamic> _$$VideoMetadataImplToJson(_$VideoMetadataImpl instance) =>
+Map<String, dynamic> _$VideoMetadataToJson(_VideoMetadata instance) =>
     <String, dynamic>{
       'duration': instance.duration,
       'width': instance.width,
@@ -117,8 +114,8 @@ Map<String, dynamic> _$$VideoMetadataImplToJson(_$VideoMetadataImpl instance) =>
       'audioCodec': instance.audioCodec,
     };
 
-_$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) =>
-    _$LocationDataImpl(
+_LocationData _$LocationDataFromJson(Map<String, dynamic> json) =>
+    _LocationData(
       latitude: (json['latitude'] as num).toDouble(),
       longitude: (json['longitude'] as num).toDouble(),
       city: json['city'] as String?,
@@ -127,7 +124,7 @@ _$LocationDataImpl _$$LocationDataImplFromJson(Map<String, dynamic> json) =>
       address: json['address'] as String?,
     );
 
-Map<String, dynamic> _$$LocationDataImplToJson(_$LocationDataImpl instance) =>
+Map<String, dynamic> _$LocationDataToJson(_LocationData instance) =>
     <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,
@@ -137,14 +134,13 @@ Map<String, dynamic> _$$LocationDataImplToJson(_$LocationDataImpl instance) =>
       'address': instance.address,
     };
 
-_$DeviceDataImpl _$$DeviceDataImplFromJson(Map<String, dynamic> json) =>
-    _$DeviceDataImpl(
-      brand: json['brand'] as String?,
-      model: json['model'] as String?,
-      softwareVersion: json['softwareVersion'] as String?,
-    );
+_DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) => _DeviceData(
+  brand: json['brand'] as String?,
+  model: json['model'] as String?,
+  softwareVersion: json['softwareVersion'] as String?,
+);
 
-Map<String, dynamic> _$$DeviceDataImplToJson(_$DeviceDataImpl instance) =>
+Map<String, dynamic> _$DeviceDataToJson(_DeviceData instance) =>
     <String, dynamic>{
       'brand': instance.brand,
       'model': instance.model,
