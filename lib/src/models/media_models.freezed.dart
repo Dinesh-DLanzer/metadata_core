@@ -23,6 +23,7 @@ mixin _$MediaFile {
   String get id => throw _privateConstructorUsedError;
   String get fileName => throw _privateConstructorUsedError;
   String get path => throw _privateConstructorUsedError;
+  String? get thumbnailPath => throw _privateConstructorUsedError;
   String get relativePath => throw _privateConstructorUsedError;
   int get size => throw _privateConstructorUsedError;
   String get mimeType => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $MediaFileCopyWith<$Res> {
       {String id,
       String fileName,
       String path,
+      String? thumbnailPath,
       String relativePath,
       int size,
       String mimeType,
@@ -79,6 +81,7 @@ class _$MediaFileCopyWithImpl<$Res, $Val extends MediaFile>
     Object? id = null,
     Object? fileName = null,
     Object? path = null,
+    Object? thumbnailPath = freezed,
     Object? relativePath = null,
     Object? size = null,
     Object? mimeType = null,
@@ -101,6 +104,10 @@ class _$MediaFileCopyWithImpl<$Res, $Val extends MediaFile>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
+      thumbnailPath: freezed == thumbnailPath
+          ? _value.thumbnailPath
+          : thumbnailPath // ignore: cast_nullable_to_non_nullable
+              as String?,
       relativePath: null == relativePath
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
@@ -149,6 +156,7 @@ abstract class _$$MediaFileImplCopyWith<$Res>
       {String id,
       String fileName,
       String path,
+      String? thumbnailPath,
       String relativePath,
       int size,
       String mimeType,
@@ -175,6 +183,7 @@ class __$$MediaFileImplCopyWithImpl<$Res>
     Object? id = null,
     Object? fileName = null,
     Object? path = null,
+    Object? thumbnailPath = freezed,
     Object? relativePath = null,
     Object? size = null,
     Object? mimeType = null,
@@ -197,6 +206,10 @@ class __$$MediaFileImplCopyWithImpl<$Res>
           ? _value.path
           : path // ignore: cast_nullable_to_non_nullable
               as String,
+      thumbnailPath: freezed == thumbnailPath
+          ? _value.thumbnailPath
+          : thumbnailPath // ignore: cast_nullable_to_non_nullable
+              as String?,
       relativePath: null == relativePath
           ? _value.relativePath
           : relativePath // ignore: cast_nullable_to_non_nullable
@@ -240,6 +253,7 @@ class _$MediaFileImpl implements _MediaFile {
       {required this.id,
       required this.fileName,
       required this.path,
+      this.thumbnailPath,
       required this.relativePath,
       required this.size,
       required this.mimeType,
@@ -258,6 +272,8 @@ class _$MediaFileImpl implements _MediaFile {
   final String fileName;
   @override
   final String path;
+  @override
+  final String? thumbnailPath;
   @override
   final String relativePath;
   @override
@@ -279,7 +295,7 @@ class _$MediaFileImpl implements _MediaFile {
 
   @override
   String toString() {
-    return 'MediaFile(id: $id, fileName: $fileName, path: $path, relativePath: $relativePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
+    return 'MediaFile(id: $id, fileName: $fileName, path: $path, thumbnailPath: $thumbnailPath, relativePath: $relativePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
   }
 
   @override
@@ -291,6 +307,8 @@ class _$MediaFileImpl implements _MediaFile {
             (identical(other.fileName, fileName) ||
                 other.fileName == fileName) &&
             (identical(other.path, path) || other.path == path) &&
+            (identical(other.thumbnailPath, thumbnailPath) ||
+                other.thumbnailPath == thumbnailPath) &&
             (identical(other.relativePath, relativePath) ||
                 other.relativePath == relativePath) &&
             (identical(other.size, size) || other.size == size) &&
@@ -309,8 +327,20 @@ class _$MediaFileImpl implements _MediaFile {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fileName, path, relativePath,
-      size, mimeType, createdAt, modifiedAt, hash, isCorrupted, isDuplicate);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      fileName,
+      path,
+      thumbnailPath,
+      relativePath,
+      size,
+      mimeType,
+      createdAt,
+      modifiedAt,
+      hash,
+      isCorrupted,
+      isDuplicate);
 
   /// Create a copy of MediaFile
   /// with the given fields replaced by the non-null parameter values.
@@ -333,6 +363,7 @@ abstract class _MediaFile implements MediaFile {
       {required final String id,
       required final String fileName,
       required final String path,
+      final String? thumbnailPath,
       required final String relativePath,
       required final int size,
       required final String mimeType,
@@ -351,6 +382,8 @@ abstract class _MediaFile implements MediaFile {
   String get fileName;
   @override
   String get path;
+  @override
+  String? get thumbnailPath;
   @override
   String get relativePath;
   @override

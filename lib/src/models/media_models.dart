@@ -9,6 +9,7 @@ class MediaFile with _$MediaFile {
     required String id,
     required String fileName,
     required String path,
+    String? thumbnailPath,
     required String relativePath,
     required int size,
     required String mimeType,

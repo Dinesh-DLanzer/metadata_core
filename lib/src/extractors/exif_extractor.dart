@@ -102,4 +102,19 @@ class ExifMetadataExtractor {
     }
     return double.tryParse(value.toString());
   }
+
+  static Future<List<int>?> extractThumbnailBytes(List<int> bytes) async {
+    try {
+      final data = await readExifFromBytes(bytes);
+      final tag = data['JPEGThumbnail'];
+      if (tag != null) {
+        final thumbList = tag.values.toList();
+        final thumbBytes = thumbList.map((e) => int.tryParse(e.toString()) ?? 0).toList();
+        if (thumbBytes.isNotEmpty && thumbBytes.length < bytes.length) {
+          return thumbBytes;
+        }
+      }
+    } catch (_) {}
+    return null;
+  }
 }
