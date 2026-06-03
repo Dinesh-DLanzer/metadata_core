@@ -1,6 +1,6 @@
 name: metadata_core
 description: Core metadata extraction interfaces, models, and EXIF extraction tools for MetaVision and Klikr applications.
-version: 0.0.5
+version: 0.0.6
 repository: https://github.com/Dinesh-DLanzer/metadata_core
 issue_tracker: https://github.com/Dinesh-DLanzer/metadata_core/issues
 
@@ -8,7 +8,6 @@ environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
-  exif: ^3.3.0
   exif_reader: ^4.1.0
   flutter:
     sdk: flutter

@@ -1,4 +1,5 @@
-import 'package:exif/exif.dart';
+import 'dart:typed_data';
+import 'package:exif_reader/exif_reader.dart';
 import '../models/media_models.dart';
 
 /// Extractor helper class that reads EXIF metadata from image byte data.
@@ -8,8 +9,9 @@ class ExifMetadataExtractor {
   ///
   /// Returns a [MetadataResult] containing extracted device, image, and GPS location data.
   static Future<MetadataResult> extractFromBytes(String fileId, List<int> bytes) async {
-    final data = await readExifFromBytes(bytes);
-    
+    final exifData = await readExifFromBytes(bytes is Uint8List ? bytes : Uint8List.fromList(bytes));
+    final data = exifData.tags;
+
     if (data.isEmpty) {
       return MetadataResult(fileId: fileId);
     }
@@ -113,8 +115,8 @@ class ExifMetadataExtractor {
   /// Returns `null` if no JPEG thumbnail is found in the metadata.
   static Future<List<int>?> extractThumbnailBytes(List<int> bytes) async {
     try {
-      final data = await readExifFromBytes(bytes);
-      final tag = data['JPEGThumbnail'];
+      final exifData = await readExifFromBytes(bytes is Uint8List ? bytes : Uint8List.fromList(bytes));
+      final tag = exifData.tags['JPEGThumbnail'];
       if (tag != null) {
         final thumbList = tag.values.toList();
         final thumbBytes = thumbList.map((e) => int.tryParse(e.toString()) ?? 0).toList();

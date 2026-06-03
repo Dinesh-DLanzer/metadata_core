@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Replaced `exif` dependency with `exif_reader` in `ExifMetadataExtractor` to eliminate the `dart:io` transitive import, enabling web platform compatibility.
+
 ## 0.0.5
 
 * Add `fullFilePath` optional field to `MediaFile` model for storing the full filesystem path (native) or relative folder path (web).
