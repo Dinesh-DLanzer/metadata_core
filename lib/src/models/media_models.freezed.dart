@@ -20,7 +20,8 @@ mixin _$MediaFile {
  String get fileName;/// Absolute local filesystem path to the file.
  String get path;/// Path to the cached thumbnail image, if generated.
  String? get thumbnailPath;/// Relative path within the import target directory.
- String get relativePath;/// File size in bytes.
+ String get relativePath;/// Full filesystem path (native) or relative folder path (web) of the file.
+ String? get fullFilePath;/// File size in bytes.
  int get size;/// The MIME type of the media file (e.g., 'image/jpeg').
  String get mimeType;/// The timestamp when the file was created.
  DateTime get createdAt;/// The timestamp when the file was last modified.
@@ -40,16 +41,16 @@ $MediaFileCopyWith<MediaFile> get copyWith => _$MediaFileCopyWithImpl<MediaFile>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is MediaFile&&(identical(other.id, id) || other.id == id)&&(identical(other.fileName, fileName) || other.fileName == fileName)&&(identical(other.path, path) || other.path == path)&&(identical(other.thumbnailPath, thumbnailPath) || other.thumbnailPath == thumbnailPath)&&(identical(other.relativePath, relativePath) || other.relativePath == relativePath)&&(identical(other.size, size) || other.size == size)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.isCorrupted, isCorrupted) || other.isCorrupted == isCorrupted)&&(identical(other.isDuplicate, isDuplicate) || other.isDuplicate == isDuplicate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is MediaFile&&(identical(other.id, id) || other.id == id)&&(identical(other.fileName, fileName) || other.fileName == fileName)&&(identical(other.path, path) || other.path == path)&&(identical(other.thumbnailPath, thumbnailPath) || other.thumbnailPath == thumbnailPath)&&(identical(other.relativePath, relativePath) || other.relativePath == relativePath)&&(identical(other.fullFilePath, fullFilePath) || other.fullFilePath == fullFilePath)&&(identical(other.size, size) || other.size == size)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.isCorrupted, isCorrupted) || other.isCorrupted == isCorrupted)&&(identical(other.isDuplicate, isDuplicate) || other.isDuplicate == isDuplicate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,fileName,path,thumbnailPath,relativePath,size,mimeType,createdAt,modifiedAt,hash,isCorrupted,isDuplicate);
+int get hashCode => Object.hash(runtimeType,id,fileName,path,thumbnailPath,relativePath,fullFilePath,size,mimeType,createdAt,modifiedAt,hash,isCorrupted,isDuplicate);
 
 @override
 String toString() {
-  return 'MediaFile(id: $id, fileName: $fileName, path: $path, thumbnailPath: $thumbnailPath, relativePath: $relativePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
+  return 'MediaFile(id: $id, fileName: $fileName, path: $path, thumbnailPath: $thumbnailPath, relativePath: $relativePath, fullFilePath: $fullFilePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
 }
 
 
@@ -60,7 +61,7 @@ abstract mixin class $MediaFileCopyWith<$Res>  {
   factory $MediaFileCopyWith(MediaFile value, $Res Function(MediaFile) _then) = _$MediaFileCopyWithImpl;
 @useResult
 $Res call({
- String id, String fileName, String path, String? thumbnailPath, String relativePath, int size, String mimeType, DateTime createdAt, DateTime modifiedAt, String? hash, bool isCorrupted, bool isDuplicate
+ String id, String fileName, String path, String? thumbnailPath, String relativePath, String? fullFilePath, int size, String mimeType, DateTime createdAt, DateTime modifiedAt, String? hash, bool isCorrupted, bool isDuplicate
 });
 
 
@@ -77,14 +78,15 @@ class _$MediaFileCopyWithImpl<$Res>
 
 /// Create a copy of MediaFile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fileName = null,Object? path = null,Object? thumbnailPath = freezed,Object? relativePath = null,Object? size = null,Object? mimeType = null,Object? createdAt = null,Object? modifiedAt = null,Object? hash = freezed,Object? isCorrupted = null,Object? isDuplicate = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? fileName = null,Object? path = null,Object? thumbnailPath = freezed,Object? relativePath = null,Object? fullFilePath = freezed,Object? size = null,Object? mimeType = null,Object? createdAt = null,Object? modifiedAt = null,Object? hash = freezed,Object? isCorrupted = null,Object? isDuplicate = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fileName: null == fileName ? _self.fileName : fileName // ignore: cast_nullable_to_non_nullable
 as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,thumbnailPath: freezed == thumbnailPath ? _self.thumbnailPath : thumbnailPath // ignore: cast_nullable_to_non_nullable
 as String?,relativePath: null == relativePath ? _self.relativePath : relativePath // ignore: cast_nullable_to_non_nullable
-as String,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as String,fullFilePath: freezed == fullFilePath ? _self.fullFilePath : fullFilePath // ignore: cast_nullable_to_non_nullable
+as String?,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,mimeType: null == mimeType ? _self.mimeType : mimeType // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,modifiedAt: null == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable
@@ -176,10 +178,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  String? fullFilePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _MediaFile() when $default != null:
-return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
+return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.fullFilePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
   return orElse();
 
 }
@@ -197,10 +199,10 @@ return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.rel
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  String? fullFilePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)  $default,) {final _that = this;
 switch (_that) {
 case _MediaFile():
-return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
+return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.fullFilePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -217,10 +219,10 @@ return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.rel
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String fileName,  String path,  String? thumbnailPath,  String relativePath,  String? fullFilePath,  int size,  String mimeType,  DateTime createdAt,  DateTime modifiedAt,  String? hash,  bool isCorrupted,  bool isDuplicate)?  $default,) {final _that = this;
 switch (_that) {
 case _MediaFile() when $default != null:
-return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
+return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.relativePath,_that.fullFilePath,_that.size,_that.mimeType,_that.createdAt,_that.modifiedAt,_that.hash,_that.isCorrupted,_that.isDuplicate);case _:
   return null;
 
 }
@@ -232,7 +234,7 @@ return $default(_that.id,_that.fileName,_that.path,_that.thumbnailPath,_that.rel
 @JsonSerializable()
 
 class _MediaFile implements MediaFile {
-  const _MediaFile({required this.id, required this.fileName, required this.path, this.thumbnailPath, required this.relativePath, required this.size, required this.mimeType, required this.createdAt, required this.modifiedAt, this.hash, this.isCorrupted = false, this.isDuplicate = false});
+  const _MediaFile({required this.id, required this.fileName, required this.path, this.thumbnailPath, required this.relativePath, this.fullFilePath, required this.size, required this.mimeType, required this.createdAt, required this.modifiedAt, this.hash, this.isCorrupted = false, this.isDuplicate = false});
   factory _MediaFile.fromJson(Map<String, dynamic> json) => _$MediaFileFromJson(json);
 
 /// Unique identifier for the media file.
@@ -245,6 +247,8 @@ class _MediaFile implements MediaFile {
 @override final  String? thumbnailPath;
 /// Relative path within the import target directory.
 @override final  String relativePath;
+/// Full filesystem path (native) or relative folder path (web) of the file.
+@override final  String? fullFilePath;
 /// File size in bytes.
 @override final  int size;
 /// The MIME type of the media file (e.g., 'image/jpeg').
@@ -273,16 +277,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MediaFile&&(identical(other.id, id) || other.id == id)&&(identical(other.fileName, fileName) || other.fileName == fileName)&&(identical(other.path, path) || other.path == path)&&(identical(other.thumbnailPath, thumbnailPath) || other.thumbnailPath == thumbnailPath)&&(identical(other.relativePath, relativePath) || other.relativePath == relativePath)&&(identical(other.size, size) || other.size == size)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.isCorrupted, isCorrupted) || other.isCorrupted == isCorrupted)&&(identical(other.isDuplicate, isDuplicate) || other.isDuplicate == isDuplicate));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _MediaFile&&(identical(other.id, id) || other.id == id)&&(identical(other.fileName, fileName) || other.fileName == fileName)&&(identical(other.path, path) || other.path == path)&&(identical(other.thumbnailPath, thumbnailPath) || other.thumbnailPath == thumbnailPath)&&(identical(other.relativePath, relativePath) || other.relativePath == relativePath)&&(identical(other.fullFilePath, fullFilePath) || other.fullFilePath == fullFilePath)&&(identical(other.size, size) || other.size == size)&&(identical(other.mimeType, mimeType) || other.mimeType == mimeType)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.modifiedAt, modifiedAt) || other.modifiedAt == modifiedAt)&&(identical(other.hash, hash) || other.hash == hash)&&(identical(other.isCorrupted, isCorrupted) || other.isCorrupted == isCorrupted)&&(identical(other.isDuplicate, isDuplicate) || other.isDuplicate == isDuplicate));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,fileName,path,thumbnailPath,relativePath,size,mimeType,createdAt,modifiedAt,hash,isCorrupted,isDuplicate);
+int get hashCode => Object.hash(runtimeType,id,fileName,path,thumbnailPath,relativePath,fullFilePath,size,mimeType,createdAt,modifiedAt,hash,isCorrupted,isDuplicate);
 
 @override
 String toString() {
-  return 'MediaFile(id: $id, fileName: $fileName, path: $path, thumbnailPath: $thumbnailPath, relativePath: $relativePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
+  return 'MediaFile(id: $id, fileName: $fileName, path: $path, thumbnailPath: $thumbnailPath, relativePath: $relativePath, fullFilePath: $fullFilePath, size: $size, mimeType: $mimeType, createdAt: $createdAt, modifiedAt: $modifiedAt, hash: $hash, isCorrupted: $isCorrupted, isDuplicate: $isDuplicate)';
 }
 
 
@@ -293,7 +297,7 @@ abstract mixin class _$MediaFileCopyWith<$Res> implements $MediaFileCopyWith<$Re
   factory _$MediaFileCopyWith(_MediaFile value, $Res Function(_MediaFile) _then) = __$MediaFileCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String fileName, String path, String? thumbnailPath, String relativePath, int size, String mimeType, DateTime createdAt, DateTime modifiedAt, String? hash, bool isCorrupted, bool isDuplicate
+ String id, String fileName, String path, String? thumbnailPath, String relativePath, String? fullFilePath, int size, String mimeType, DateTime createdAt, DateTime modifiedAt, String? hash, bool isCorrupted, bool isDuplicate
 });
 
 
@@ -310,14 +314,15 @@ class __$MediaFileCopyWithImpl<$Res>
 
 /// Create a copy of MediaFile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fileName = null,Object? path = null,Object? thumbnailPath = freezed,Object? relativePath = null,Object? size = null,Object? mimeType = null,Object? createdAt = null,Object? modifiedAt = null,Object? hash = freezed,Object? isCorrupted = null,Object? isDuplicate = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? fileName = null,Object? path = null,Object? thumbnailPath = freezed,Object? relativePath = null,Object? fullFilePath = freezed,Object? size = null,Object? mimeType = null,Object? createdAt = null,Object? modifiedAt = null,Object? hash = freezed,Object? isCorrupted = null,Object? isDuplicate = null,}) {
   return _then(_MediaFile(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,fileName: null == fileName ? _self.fileName : fileName // ignore: cast_nullable_to_non_nullable
 as String,path: null == path ? _self.path : path // ignore: cast_nullable_to_non_nullable
 as String,thumbnailPath: freezed == thumbnailPath ? _self.thumbnailPath : thumbnailPath // ignore: cast_nullable_to_non_nullable
 as String?,relativePath: null == relativePath ? _self.relativePath : relativePath // ignore: cast_nullable_to_non_nullable
-as String,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
+as String,fullFilePath: freezed == fullFilePath ? _self.fullFilePath : fullFilePath // ignore: cast_nullable_to_non_nullable
+as String?,size: null == size ? _self.size : size // ignore: cast_nullable_to_non_nullable
 as int,mimeType: null == mimeType ? _self.mimeType : mimeType // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,modifiedAt: null == modifiedAt ? _self.modifiedAt : modifiedAt // ignore: cast_nullable_to_non_nullable

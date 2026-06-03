@@ -18,6 +18,8 @@ abstract class MediaFile with _$MediaFile {
     String? thumbnailPath,
     /// Relative path within the import target directory.
     required String relativePath,
+    /// Full filesystem path (native) or relative folder path (web) of the file.
+    String? fullFilePath,
     /// File size in bytes.
     required int size,
     /// The MIME type of the media file (e.g., 'image/jpeg').

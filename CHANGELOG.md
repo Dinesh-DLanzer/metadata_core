@@ -1,3 +1,7 @@
+## 0.0.5
+
+* Add `fullFilePath` optional field to `MediaFile` model for storing the full filesystem path (native) or relative folder path (web).
+
 ## 0.0.4
 
 * Address all pub.dev package analysis suggestions to achieve maximum pub points.
